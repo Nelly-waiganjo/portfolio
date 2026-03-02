@@ -20,6 +20,11 @@
             overflow-x: hidden;
         }
 
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
         /* Navigation */
         nav {
             position: fixed;
@@ -28,7 +33,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 80px;
+            padding: 20px clamp(20px, 6vw, 80px);
             background: rgba(28, 24, 20, 0.95);
             backdrop-filter: blur(10px);
             z-index: 1000;
@@ -65,11 +70,11 @@
 
         /* Hero Section */
         .hero {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 80px;
+            padding: 100px clamp(20px, 6vw, 80px) 40px;
             position: relative;
             overflow: hidden;
         }
@@ -111,7 +116,7 @@
         }
 
         .hero h1 .name-first {
-            font-size: 96px;
+            font-size: clamp(52px, 9vw, 96px);
             font-weight: 700;
             display: block;
             letter-spacing: 2px;
@@ -125,7 +130,7 @@
         }
 
         .hero h1 .name-last {
-            font-size: 68px;
+            font-size: clamp(36px, 6.5vw, 68px);
             font-weight: 500;
             display: block;
             letter-spacing: 1px;
@@ -158,6 +163,7 @@
             display: flex;
             gap: 25px;
             margin-bottom: 60px;
+            flex-wrap: wrap;
         }
 
         .btn {
@@ -239,12 +245,12 @@
             justify-content: center;
             align-items: center;
             z-index: 1;
-            margin-right: -100px;
+            margin-right: 0;
         }
 
         .workspace-image {
-            width: 650px;
-            height: 450px;
+            width: min(100%, 650px);
+            aspect-ratio: 13 / 9;
             background: linear-gradient(135deg, #3d332b 0%, #2c2520 100%);
             border-radius: 10px;
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
@@ -262,8 +268,8 @@
 
         .fullscreen-btn {
             position: absolute;
-            bottom: 80px;
-            right: 80px;
+            bottom: 40px;
+            right: 40px;
             background: transparent;
             border: 2px solid #d4a574;
             color: #d4a574;
@@ -286,7 +292,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 100px 80px;
+            padding: 100px clamp(20px, 6vw, 80px);
             position: relative;
         }
 
@@ -344,8 +350,8 @@
         }
 
         .profile-image {
-            width: 450px;
-            height: 450px;
+            width: min(100%, 450px);
+            aspect-ratio: 1 / 1;
             background: linear-gradient(135deg, #3d332b 0%, #2c2520 100%);
             border-radius: 50%;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
@@ -363,7 +369,7 @@
         /* Resume Section */
         .resume {
             min-height: 100vh;
-            padding: 100px 80px;
+            padding: 100px clamp(20px, 6vw, 80px);
         }
 
         .resume-grid {
@@ -572,34 +578,55 @@
         }
 
         /* Responsive */
-        @media (max-width: 1024px) {
-            nav {
-                padding: 20px 40px;
-            }
-
-            .hero,
-            .about,
-            .resume {
-                padding: 80px 40px;
-            }
-
+        @media (max-width: 1200px) {
             .hero {
-                flex-direction: column;
-                text-align: center;
+                gap: 40px;
             }
 
-            .workspace-image {
-                width: 100%;
-                max-width: 500px;
-                margin-top: 40px;
+            .hero-content {
+                max-width: 100%;
             }
 
+            .resume-grid {
+                gap: 40px;
+            }
+
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .hero,
             .about {
                 flex-direction: column;
+                text-align: center;
+                justify-content: center;
+            }
+
+            .hero-content::before,
+            .social-links::before {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero h1 .name-last {
+                margin-left: 0;
+            }
+
+            .hero h1 .name-last::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .hero-buttons,
+            .social-links {
+                justify-content: center;
             }
 
             .about-image {
                 margin-top: 40px;
+                justify-content: center;
             }
 
             .resume-grid {
@@ -609,30 +636,75 @@
 
         @media (max-width: 768px) {
             nav {
-                padding: 15px 20px;
+                flex-wrap: wrap;
+                gap: 12px;
+                justify-content: center;
+                padding-top: 14px;
+                padding-bottom: 14px;
             }
 
             .nav-links {
-                gap: 20px;
+                gap: 16px;
+                flex-wrap: wrap;
+                justify-content: center;
             }
 
-            .hero h1 {
-                font-size: 32px;
-            }
-
-            .hero h1 .name {
-                font-size: 48px;
+            .contact-info {
+                width: 100%;
+                justify-content: center;
             }
 
             .hero,
             .about,
-            .resume {
-                padding: 60px 20px;
+            .resume,
+            .projects {
+                padding-top: 120px;
+            }
+
+            .about h2,
+            .projects h2 {
+                font-size: clamp(32px, 8vw, 48px);
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
             }
 
             .fullscreen-btn {
-                bottom: 40px;
-                right: 40px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .hero {
+                min-height: auto;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+                padding: 12px 20px;
+            }
+
+            .hero-buttons {
+                width: 100%;
+                gap: 12px;
+            }
+
+            .social-links a {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+
+            .hobby-grid,
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                display: none;
             }
         }
 
@@ -765,25 +837,6 @@
             padding: 40px;
         }
 
-        @media (max-width: 1024px) {
-            .projects-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .projects {
-                padding: 60px 20px;
-            }
-
-            .projects h2 {
-                font-size: 36px;
-            }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
 </head>
 <body>
@@ -943,17 +996,12 @@
             <div class="resume-column">
                 <h3>WHAT CAN I DO ?</h3>
                 <ul class="skill-list">
-                    <li>Full Stack Web Development</li>
-                    <li>API Design & Development</li>
-                    <li>Cloud Architecture & DevOps</li>
-                    <li>Database Design & Optimization</li>
+                    <li>Frontend Developer</li>
+                    <li>Backend Developer</li>
+                   
                 </ul>
 
-                <h3 style="margin-top: 40px;">ENGINEERING SKILLS</h3>
-                <ul class="skill-list">
-                    <li>Clean Code & Best Practices</li>
-                    <li>Testing & CI/CD - Version Control</li>
-                </ul>
+                
 
                 <h3 style="margin-top: 40px;">HOBBIES & INTERESTS</h3>
                 <div class="hobby-grid">
